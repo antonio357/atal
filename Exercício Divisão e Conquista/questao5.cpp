@@ -7,73 +7,45 @@ typedef struct {
     int i;
 } median;
 
-void printArray(int array[], int left, int right) {
-    for (int j = left; j <= right; j++) cout << array[j] << ' ';
+void printArray(int array[], int n) {
+    for (int j = 0; j < n; j++) cout << array[j] << ' ';
     cout << endl;
 }
 
-median getMedian(int array[], int left, int right, bool goCenter, bool leftArray) {
-    median med = {-1.0, -1};
-    int len = (right - left + 1);
+int getMedian(int arr[], int n) {
+    int med;
     
-    bool odd = false;
-    if (len % 2 != 0) odd = true;
-    
-    int m;
-    if (goCenter) {
-        if (leftArray) m = (len / 2) + left;
-        else {
-            if (odd) m = (len / 2) + left;
-            else m = (len / 2) - 1;
-        }
-    }
-    else {
-        if (leftArray) {
-            if (odd) m = (len / 2) + left;
-            else m = (len / 2) + (right - left);
-        }
-        else m = (len / 2) + left;
-    }
-
-    med.val = array[m];
-    med.i = m;
-    
-    cout << "left, right = " << left << ", " << right;
-    cout << ", len = " << len << ", odd = " << odd << ", m = " << m << ", val = " << med.val << endl;
+    if (n % 2 == 0) med = (arr[n / 2] + arr[n / 2 - 1]) / 2;
+    else med = arr[n / 2];
     
     return med;
 }
-void medianTwoSortedArrays(int A[], int B[], int leftA, int rightA, int leftB, int rightB, int counter, bool goCenter) {
-    counter++;
-    if (counter >= 40) return;
-    cout << "medianTwoSortedArrays" << endl;
-    printArray(A, leftA, rightA); printArray(B, leftB, rightB);
+int min(int a, int b) {
+    if (a < b) return a;
+    else return b;
+}
+int max(int a, int b) {
+    if (a > b) return a;
+    else return b;
+}
+bool itsEven(int a) {
+    if (a % 2 == 0) return true;
+    else return false;
+}
+double medianTwoSortedArrays(int A[], int B[], int n) {
+    if (n == 1) return(double)((A[0] + B[0]) / 2.0);
+    if (n == 2) return (double)((max(A[0], B[0]) + min(A[1], B[1])) / 2.0);
     
-    int len = rightA - leftA + 1;
-    if (len == 1) {
-        cout << "worked, leftA, leftB = " << leftA << ", " << leftB << endl;
-        cout << (A[leftA] + B[leftB]) / 2.0 << endl;
-        return;
+    int medA = getMedian(A, n);
+    int medB = getMedian(B, n);
+    if (medA == medB) return medA;
+    
+    if (medA < medB) {
+        if (itsEven(n)) return medianTwoSortedArrays(A + n / 2 - 1, B, n - n / 2 + 1);
+        else return medianTwoSortedArrays(A + n / 2, B, n - n / 2);
     }
-    
-    median medianA = getMedian(A, leftA, rightA, goCenter, true);
-    median medianB = getMedian(B, leftB, rightB, goCenter, false);
-    double final_median;
-    
-    if (medianA.val == medianB.val) final_median = medianA.val;
-    else {
-        if (medianA.val < medianB.val) {
-            cout << "going center" << endl;
-            medianTwoSortedArrays(A, B, medianA.i, rightA, leftB, medianB.i, counter, true);
-        }
-        else {
-            cout << "going edge" << endl;
-            medianTwoSortedArrays(A, B, leftA, medianA.i, medianB.i, rightB, counter, false);
-        }
-    }
-    
-    //cout << (A[leftA] + B[leftB]) / 2.0 << endl;
-    return;
+    if (itsEven(n)) return medianTwoSortedArrays(B + n / 2 - 1, A, n - n / 2 + 1);
+    else return medianTwoSortedArrays(B + n / 2, A, n - n / 2);
 }
 
 int main() {
@@ -83,7 +55,6 @@ int main() {
     //int b[] = {6, 7, 8, 9, 10};
     int n = sizeof(a) / sizeof(int);
     
-    int counter = 0;
-    medianTwoSortedArrays(a, b, 0, n - 1, 0, n - 1, counter, true);
+    cout << medianTwoSortedArrays(a, b, n) << endl;
     return 0;
 }

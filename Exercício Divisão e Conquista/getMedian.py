@@ -13,7 +13,7 @@ for i in lis2:
     
 i = int(len(lis) / 2)
 lis = sorted(lis)
-lis = [lis[x] for x in range(len(lis) - 1, -1, -1)]
+#lis = [lis[x] for x in range(len(lis) - 1, -1, -1)]
 
 if (len(lis) % 2 == 0):
     v = lis[i] + lis[i - 1]
