@@ -2,12 +2,14 @@
 
 using namespace std;
 
+// maior número entre 3 números
 int maxNum(int a, int b, int c) {
     int array[3] = {a, b, c};
     int max = array[0];
     for (int i = 1; i < 3; i++) if (array[i] > max) max = array[i];
     return max;
 }
+// maior soma entre 2
 int mergeSum(const int array[], int i, int f) {
     int max_left = 0, max_right = 0, m = (i + f) / 2, sum;
     
@@ -25,6 +27,7 @@ int mergeSum(const int array[], int i, int f) {
     
     return max_left + max_right;
 }
+// maior ganho possível
 int maxSubArraySum(const int array[], int i, int f) {
     if (i == f) return array[i];
     else {
