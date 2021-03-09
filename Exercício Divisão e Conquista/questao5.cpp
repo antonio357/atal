@@ -2,16 +2,6 @@
 
 using namespace std;
 
-typedef struct {
-    double val;
-    int i;
-} median;
-
-void printArray(int array[], int n) {
-    for (int j = 0; j < n; j++) cout << array[j] << ' ';
-    cout << endl;
-}
-
 int getMedian(int arr[], int n) {
     int med;
     
@@ -49,12 +39,13 @@ double medianTwoSortedArrays(int A[], int B[], int n) {
 }
 
 int main() {
-    int a[] = {1, 12, 15, 26, 38};
-    int b[] = {2, 13, 17, 30, 45};
-    //int a[] = {1, 2, 3, 4, 5};
-    //int b[] = {6, 7, 8, 9, 10};
-    int n = sizeof(a) / sizeof(int);
+    int n;
+    cin >> n;
     
-    cout << medianTwoSortedArrays(a, b, n) << endl;
+    int A[n], B[n];
+    for (int i = 0; i < n; i++) cin >> A[i];
+    for (int i = 0; i < n; i++) cin >> B[i];
+    
+    cout << medianTwoSortedArrays(A, B, n) << endl;
     return 0;
 }
