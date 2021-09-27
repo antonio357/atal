@@ -17,6 +17,11 @@ def cut_rod_bottom_up(p, n):
         q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
     return q
 
+def cut_rod_bottom_up_iterative(p, n):
+    arr, q = [0], 0
+    
+    return
+
 print('mine == expected')
 for i in range(10):
     p = dict()
