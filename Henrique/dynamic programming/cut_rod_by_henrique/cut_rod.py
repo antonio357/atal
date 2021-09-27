@@ -11,11 +11,9 @@ def cut_rod(p, n):
 
 def cut_rod_bottom_up(p, n):
     if n == 0:
-        # print('in cut_rod_bottom_up n == 0')
         return 0
     q = 0
     for i in range(n, 0, -1):
-        # print('inside for loop')
         q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
     return q
 
