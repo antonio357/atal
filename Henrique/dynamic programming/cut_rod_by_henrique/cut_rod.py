@@ -6,35 +6,46 @@ def cut_rod(p, n):
         return 0
     q = 0
     for i in range(1, n+1):
-        q = max(q, p[i] + cut_rod(p, n-i))
+        if p.get(i): q = max(q, p[i] + cut_rod(p, n-i))
     return q
 
 def cut_rod_bottom_up(p, n):
+    # print('n =', n, end=' ')
     if n == 0:
         return 0
     q = 0
     for i in range(n, 0, -1):
-        q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
+        # if i < 5: print('i =', i)
+        if p.get(i): q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
+    # print(', q =', q)
     return q
 
-def cut_rod_bottom_up_iterative(p, n):
-    arr, q = [0], 0
-    
-    return
+# def cut_rod_bottom_up_iterative(p, n):
+#     arr, q = [0], 0
+#     for i in range(n, 0, -1):
+#         q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
+#     return
 
 print('mine == expected')
 for i in range(10):
     p = dict()
     for i in range(1, 51):
-         p[i] = randint(5, 100)
-    mine = cut_rod_bottom_up(p, 20)
-    expected = cut_rod(p, 20)
-    # if mine != expected:
-    #     print("wrong")
-    #     break
+         p[i] = randint(5, 1000)
+    l = randint(0, 20)
+    mine = cut_rod_bottom_up(p, l)
+    expected = cut_rod(p, l)
+    if mine != expected:
+        print("wrong")
+        break
     print('{} == {}'.format(mine, expected))
 
 # p = dict()
 # for i in range(1, 20):
 #      p[i] = randint(5, 1000)
 # print(cut_rod(p, len(p.keys())))
+
+# p = {1:1, 2:2, 3:3, 4:4, 5:5}
+# print('\ncut_rod')
+# cut_rod(p, 4)
+# print('\ncut_rod_bottom_up')
+# cut_rod_bottom_up(p, 4)
