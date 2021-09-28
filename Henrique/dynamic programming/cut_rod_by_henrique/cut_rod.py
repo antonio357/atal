@@ -5,13 +5,14 @@ def cut_rod(p, n):
     global cut_rod_counter, cut_rod_mem
     cut_rod_counter += 1
     if n == 0:
+        cut_rod_mem[0] = 0
         return 0
     q = 0
     for i in range(1, n+1):
         if p.get(i):
             if not cut_rod_mem.get(n-i): q = max(q, p[i] + cut_rod(p, n-i))
             else: q = max(q, p[i] + cut_rod_mem[n-i])
-        cut_rod_mem[n] = q
+    cut_rod_mem[n] = q
     return q
 
 def cut_rod_bottom_up(p, n):
@@ -37,6 +38,8 @@ for i in range(10):
     for i in range(1, 51):
          p[i] = randint(5, 1000)
     l = randint(0, 20)
+    cut_rod_bottom_up_mem = {}
+    cut_rod_bottom_up_counter = 0
     mine = cut_rod_bottom_up(p, l)
     cut_rod_mem = {}
     cut_rod_counter = 0
