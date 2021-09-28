@@ -16,13 +16,19 @@ def cut_rod(p, n):
     return q
 
 def cut_rod_bottom_up(p, n):
+    global cut_rod_bottom_up_mem, cut_rod_bottom_up_counter
+    cut_rod_bottom_up_counter += 1
     # print('n =', n, end=' ')
     if n == 0:
+        cut_rod_bottom_up_mem[0] = 0
         return 0
     q = 0
     for i in range(n, 0, -1):
         # if i < 5: print('i =', i)
-        if p.get(i): q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
+        if p.get(i):
+            if not cut_rod_bottom_up_mem.get(n-i): q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
+            else: q = max(q, p[i] + cut_rod_bottom_up_mem[n - i])
+    cut_rod_bottom_up_mem[n] = q
     # print(', q =', q)
     return q
 
@@ -45,6 +51,7 @@ for i in range(10):
     cut_rod_counter = 0
     expected = cut_rod(p, l)
     print('cut_rod_counter = {}'.format(cut_rod_counter))
+    print('cut_rod_bottom_up_counter = {}'.format(cut_rod_bottom_up_counter))
     if mine != expected:
         print("wrong")
         break
