@@ -31,11 +31,25 @@ def cut_rod_bottom_up(p, n):
     # print(', q =', q)
     return q
 
+def getMaxPossibilities(p, n):
+    q = 0
+
+
 def cut_rod_bottom_up_iterative(p, n):
-    arr, q = [0], 0
-    for i in range(n, 0, -1):
-        q = max(q, p[i] + cut_rod_bottom_up(p, n - i))
-    return
+    maxes_n = [0]
+    for rod_len in range(1, n+1):
+        possibilities = p[rod_len] + getMaxPossibilities(p, n - rod_len)
+        maxes_n.append(max(maxes_n[rod_len - 1], possibilities))
+        new_len = n - rod_len
+        possibilities_array = sorted([x for x in p.keys()], reverse=True)
+        i = 0;
+        while i < len(possibilities_array):
+            if possibilities_array[i] >= new_len:
+                f = 
+            i += 1
+
+
+    print(maxes_n)
 
 print('mine == expected')
 for i in range(10):
@@ -65,10 +79,13 @@ p = {1:1, 2:2, 3:3, 4:4, 5:5}
 print('\ncut_rod')
 cut_rod_mem = {}
 cut_rod_counter = 0
-cut_rod(p, 4)
+print(cut_rod(p, 4))
 print('\ncut_rod_bottom_up')
 cut_rod_bottom_up_mem = {}
 cut_rod_bottom_up_counter = 0
-cut_rod_bottom_up(p, 4)
+print(cut_rod_bottom_up(p, 4))
 print('\ncut_rod_counter = {}'.format(cut_rod_counter))
 print('\ncut_rod_bottom_up_counter = {}'.format(cut_rod_bottom_up_counter))
+
+
+print(cut_rod_bottom_up_iterative(p, 4))
