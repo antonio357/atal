@@ -31,25 +31,10 @@ def cut_rod_bottom_up(p, n):
     # print(', q =', q)
     return q
 
-def getMaxPossibilities(p, n):
-    q = 0
 
-
+# tem que implementar tabela como no problema da mochila
 def cut_rod_bottom_up_iterative(p, n):
-    maxes_n = [0]
-    for rod_len in range(1, n+1):
-        possibilities = p[rod_len] + getMaxPossibilities(p, n - rod_len)
-        maxes_n.append(max(maxes_n[rod_len - 1], possibilities))
-        new_len = n - rod_len
-        possibilities_array = sorted([x for x in p.keys()], reverse=True)
-        i = 0;
-        while i < len(possibilities_array):
-            if possibilities_array[i] >= new_len:
-                f = 
-            i += 1
-
-
-    print(maxes_n)
+    pass
 
 print('mine == expected')
 for i in range(10):
