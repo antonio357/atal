@@ -23,22 +23,22 @@ p = dict()
 
 tam = 994
 
-for i in range(0, tam+1):
+for i in range(1, tam + 1):
      p[i] = randint(5, 10)
 
 print(cut_rod_memoizado(p, tam))
 
-def iteractive_bottomUp_cutRod(price, rod_len):
-    previous_prices = [0] * (rod_len + 1)
-    for rl in range(1, rod_len + 1):
-        biggest_price = -1700
-        for rl_slice in range(rl):
-            # price_rl_slice = price[rl_slice] if price.get(rl_slice) else 0
-            biggest_price = max(biggest_price, price[rl_slice] + previous_prices[rl - rl_slice - 1])
-        previous_prices[rl] = biggest_price
-    return previous_prices[-1]
-
-print(iteractive_bottomUp_cutRod(p, tam))
+# def iteractive_bottomUp_cutRod(price, rod_len):
+#     previous_prices = [0] * (rod_len + 1)
+#     for rl in range(1, rod_len + 1):
+#         biggest_price = -1700
+#         for rl_slice in range(rl):
+#             # price_rl_slice = price[rl_slice] if price.get(rl_slice) else 0
+#             biggest_price = max(biggest_price, price[rl_slice] + previous_prices[rl - rl_slice - 1])
+#         previous_prices[rl] = biggest_price
+#     return previous_prices[-1]
+#
+# print(iteractive_bottomUp_cutRod(p, tam))
 
 
 # A Dynamic Programming solution for Rod cutting problem
@@ -69,6 +69,36 @@ def cutRod(price, n):
 	return val[n]
 
 arr = [x for x in p.values()]
-print(cutRod(arr, len(arr)))
+print(cutRod(arr, tam))
 
+
+# def f(p, n):
+#     r, s = [0] * (n), [0] * (n)
+#     for j in range(1, n):
+#         q = -123098
+#         for i in range(1, j):
+#             if q < p[i] + r[j - i]:
+#                 q = p[i] + r[j - i]
+#                 s[j] = i
+#         r[j] = q
+#     return r, s
+# r, s = f(arr, len(arr))
+# n = len(arr)
+# while n > 0:
+#     print(s[n])
+#     n = n - s[n]
+# print(n)
+# print(r)
+# print(s)
+
+
+# def cut_rod(p, n):
+#     if n == 0:
+#         return 0
+#     q = 0
+#     for i in range(1, n+1):
+#         q = max(q, p[i] + cut_rod(p, n-i))
+#     return q
+#
+# print(cut_rod(p, tam))
 
