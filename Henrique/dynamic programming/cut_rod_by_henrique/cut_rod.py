@@ -31,10 +31,20 @@ def cut_rod_bottom_up(p, n):
     # print(', q =', q)
     return q
 
-
 # tem que implementar tabela como no problema da mochila
-def cut_rod_bottom_up_iterative(p, n):
-    pass
+def cut_rod_bottom_up_iterative(p, rod_len):
+    rod_slice_len = p
+    if rod_slice_len.get(0): rod_slice_len[0] = 0
+    rod_slice_len_keys = sorted(rod_slice_len.keys())
+    row_len = len(rod_slice_len_keys)
+    col_len = rod_len + 1
+    matrix = [[0] * row_len] * (col_len)
+
+    # for r in range(1, row_len):
+    #     for c in range(1, col_len):
+    #         if > :
+
+    return matrix[row_len - 1][col_len - 1]
 
 print('mine == expected')
 for i in range(10):
@@ -74,3 +84,6 @@ print('\ncut_rod_bottom_up_counter = {}'.format(cut_rod_bottom_up_counter))
 
 
 print(cut_rod_bottom_up_iterative(p, 4))
+
+
+
