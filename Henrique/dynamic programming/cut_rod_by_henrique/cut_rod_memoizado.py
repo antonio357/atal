@@ -67,7 +67,18 @@ def iteractive_bottomUp_cutRod(price, rod_len):
         previous_prices[rl] = biggest_price
     return previous_prices[-1]
 
-print(iteractive_bottomUp_cutRod(arr, tam))
+arr1 = []
+for k in p.keys():
+    arr1.append(p[k])
+p1 = {}
+for a in range(len(arr1)): p1[a] = arr1[a]
+
+print(iteractive_bottomUp_cutRod(arr1, tam))
+print(iteractive_bottomUp_cutRod(p1, tam))
+
+# for i in range(len(arr)):
+#     print('{} = {}'.format(i, arr[i]))
+# print(p)
 
 # def f(p, n):
 #     r, s = [0] * (n), [0] * (n)
