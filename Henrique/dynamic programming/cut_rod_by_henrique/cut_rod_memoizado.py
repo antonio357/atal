@@ -26,7 +26,7 @@ tam = 994
 for i in range(1, tam + 1):
      p[i] = randint(5, 10)
 
-print(cut_rod_memoizado(p, tam))
+print('cut_rod_memoizado =', cut_rod_memoizado(p, tam))
 
 # A Dynamic Programming solution for Rod cutting problem
 INT_MIN = -32767
@@ -56,25 +56,30 @@ def cutRod(price, n):
     return val[n]
 
 arr = [x for x in p.values()]
-print(cutRod(arr, tam))
+# print('cutRod =', cutRod(arr, tam))
 
 
 def iteractive_bottomUp_cutRod(price, rod_len):
     previous_prices, biggest_price = [0] * (rod_len + 1), 0
     for rl in range(1, rod_len + 1):
-        for rl_slice in range(rl):
-            biggest_price = max(biggest_price, price[rl_slice] + previous_prices[rl - rl_slice - 1])
+        for rl_slice in range(1, rl+1):
+            biggest_price = max(biggest_price, price[rl_slice] + previous_prices[rl - rl_slice])
         previous_prices[rl] = biggest_price
-    return previous_prices[-1]
+    return biggest_price
 
 arr1 = []
 for k in p.keys():
     arr1.append(p[k])
 p1 = {}
 for a in range(len(arr1)): p1[a] = arr1[a]
+p2 = {}
+for i in range(len(p.keys())): p2[i] = p[i+1]
 
-print(iteractive_bottomUp_cutRod(arr1, tam))
-print(iteractive_bottomUp_cutRod(p1, tam))
+
+# print('iteractive_bottomUp_cutRod(arr1 =', iteractive_bottomUp_cutRod(arr1, tam))
+# print('iteractive_bottomUp_cutRod(p1 =', iteractive_bottomUp_cutRod(p1, tam))
+# print('iteractive_bottomUp_cutRod(p2 =', iteractive_bottomUp_cutRod(p2, tam))
+print('iteractive_bottomUp_cutRod(p =', iteractive_bottomUp_cutRod(p, tam))
 
 # for i in range(len(arr)):
 #     print('{} = {}'.format(i, arr[i]))
