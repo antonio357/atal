@@ -26,7 +26,7 @@ def dynamicPrograming(s, n, w):
     return matrix[w][n]
 
 class item():
-    def __init__(self, valor, peso):
+    def __init__(self, peso, valor):
         self.valor = valor
         self.peso = peso
 
