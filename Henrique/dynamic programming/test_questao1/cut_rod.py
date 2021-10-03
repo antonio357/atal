@@ -12,8 +12,12 @@ def cut_rod(p, n):
 def iteractive_bottomUp_cutRod(prices, rod_len):
     previous_prices, biggest_price = [0] * (rod_len + 1), 0
     for rl in range(1, rod_len + 1):
+        print('rl =', rl)
+        print('rl - rl_slice =', end=' ')
         for rl_slice in range(1, rl+1):
+            print(rl - rl_slice, end=' ')
             biggest_price = max(biggest_price, prices[rl_slice] + previous_prices[rl - rl_slice])
+        print()
         previous_prices[rl] = biggest_price
     return biggest_price
 
@@ -26,4 +30,4 @@ for l in range(21):
     if not expected == found:
         print('WRONG')
         break
-    print('{} == {}'.format(expected, found))
+    # print('{} == {}'.format(expected, found))
