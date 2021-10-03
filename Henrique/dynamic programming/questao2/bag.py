@@ -9,21 +9,21 @@ def memoized():
     pass
 
 def dynamicPrograming(s, n, w):
-    matrix = list()
+    m = list()
     for r in range(w + 1):
-        matrix.append(list())
+        m.append(list())
         for c in range(n + 1):
-            if r == 0 or c == 0: matrix[r].append(0)
-            else: matrix[r].append('-')
-    printMatrix(matrix)
+            if r == 0 or c == 0: m[r].append(0)
+            else: m[r].append('-')
+    printMatrix(m)
 
     for i in range(1, n + 1):
         for w in range(1, w + 1):
-            if s[i].peso > w: matrix[w][i] = matrix[w][i - 1]
-            else: matrix[w][i] = max(matrix[w - s[i].peso][i - 1] + s[i].valor, matrix[w][i - 1])
+            if s[i].peso > w: m[w][i] = m[w][i - 1]
+            else: m[w][i] = max(m[w - s[i].peso][i - 1] + s[i].valor, m[w][i - 1])
 
-    printMatrix(matrix)
-    return matrix[w][n]
+    printMatrix(m)
+    return m[w][n]
 
 class item():
     def __init__(self, peso, valor):
