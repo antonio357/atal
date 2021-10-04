@@ -28,7 +28,7 @@ def f(w, v, n, W, id=0, idP=-1, idc=None, idcP=None):
         return max(x1, x2)
 
 def recursive(s, n, w):
-    if n <= 0: return 0
+    if n <= 1: return 0
     elif s[n - 1].peso > w: return recursive(s, n - 1, w)
     else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
 
@@ -61,7 +61,7 @@ for n in range(1, 10+1):
             vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found, found1 = dynamicPrograming(s, n, w), f(ws, vs, n, w), recursive(sr, n, w)
+        expected, found, found1 = dynamicPrograming(s, n, w), f(ws, vs, n, w), recursive(s, n+1, w)
         if not expected == found == found1:
             print('{} | {} | {}'.format(expected, found, found1))
             print('WRONG')
