@@ -10,23 +10,6 @@ def initMatrix(m, n, w):
         for c in range(n + 1):
             m[r].append(0)
 
-def f(w, v, n, W, id=0, idP=-1, idc=None, idcP=None):
-    # print('f({}, {}), id = {}, idP {}, idc = {}, idcP = {}'.format(n, W, id, idP, idc, idcP))
-    # print('f({}, {}, {}, {})'.format(w, v, n, W))
-    # print(n, end=' ')
-    if n <= 0:
-        # print('end')
-        return 0
-    elif w[n - 1] > W:
-        # print('f({}, {}), elif'.format(n - 1, W))
-        return f(w, v, n - 1, W, id + 1, id, '/', idc)
-    else:
-        # print('f({}, {}), else, first'.format(n - 1, W))
-        x1 = f(w, v, n - 1, W, id + 1, id, '//', idc)
-        # print('f({}, {}), else, then'.format(n - 1, W - w[n - 1]))
-        x2 = v[n - 1] + f(w, v, n - 1, W - w[n - 1], id + 1, id, '///', idc)
-        return max(x1, x2)
-
 def recursive(s, n, w):
     if n <= 1: return 0
     elif s[n - 1].peso > w: return recursive(s, n - 1, w)
@@ -61,13 +44,13 @@ for n in range(1, 10+1):
             vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found, found1 = dynamicPrograming(s, n, w), f(ws, vs, n, w), recursive(s, n+1, w)
-        if not expected == found == found1:
-            print('{} | {} | {}'.format(expected, found, found1))
+        expected, found_r = dynamicPrograming(s, n, w), recursive(s, n+1, w)
+        if not expected == found_r:
+            print('{} | {}'.format(expected, found_r))
             print('WRONG')
             brk = True
             break
-        print('{} == {} == {}'.format(expected, found, found1))
+        print('{} == {}'.format(expected, found_r))
 
     if brk: break
 
