@@ -27,16 +27,10 @@ def f(w, v, n, W, id=0, idP=-1, idc=None, idcP=None):
         x2 = v[n - 1] + f(w, v, n - 1, W - w[n - 1], id + 1, id, '///', idc)
         return max(x1, x2)
 
-def getFromdit(dit, key):
-    if dit.get(key):
-        return dit[k]
-    return item(-1, -1)
-
-def f_with_dict(items_value_weight, current_item, current_weight):
-    if current_item <= 0: return 0
-    elif getFromdit(items_value_weight, current_item - 1).peso > current_weight: return f_with_dict(items_value_weight, current_item - 1, current_weight)
-    else:
-        return max(f_with_dict(items_value_weight, current_item - 1, current_weight), getFromdit(items_value_weight, current_item).valor + f_with_dict(items_value_weight, current_item - 1, current_weight - getFromdit(items_value_weight, current_item - 1).peso))
+def recursive(s, n, w):
+    if n <= 0: return 0
+    elif s[n - 1].peso > w: return recursive(s, n - 1, w)
+    else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
 
 def memoized():
     pass
@@ -55,6 +49,7 @@ class item():
         self.valor = valor
         self.peso = peso
 
+brk = False
 for n in range(1, 10+1):
     s, ws, vs = dict(), [], []
     for i in range(1, n+1):
@@ -64,11 +59,15 @@ for n in range(1, 10+1):
         vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found = dynamicPrograming(s, n, w), f(ws, vs, n, w)
-        if not expected == found:
+        expected, found, found1 = dynamicPrograming(s, n, w), f(ws, vs, n, w), recursive(s, n, w)
+        if not expected == found == found1:
+            print('{} | {} | {}'.format(expected, found, found1))
             print('WRONG')
+            brk = True
             break
-        print('{} == {}'.format(expected, found))
+        print('{} == {} == {}'.format(expected, found, found1))
+
+    if brk: break
 
 
 # s = {
