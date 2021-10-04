@@ -5,21 +5,22 @@ def recursive(s, n, w):
     elif s[n - 1].peso > w: return recursive(s, n - 1, w)
     else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
 
+def aux_memoized(s, n, w):
+    m = [[-1 for i in range(n + 2)] for j in range(w + 2)]
+    return memoized(s,n,w,m)
 c = 0
-def memoized(s, n, w, m=dict()):
+def memoized(s, n, w, m):
     global c
     c += 1
-    if n <= 1 or w == 0: return 0
-    rid = '{},{}'.format(n, w)
-    if m.get(rid):
-        print('called')
-        return m[rid]
+    if n <= 1: return 0
+    if m[w][n] != -1:
+        return m[n][w]
     elif s[n - 1].peso > w:
-        m[rid] = memoized(s, n - 1, w, m)
-        return m[rid]
+        m[w][n] = memoized(s, n - 1, w, m)
+        return m[w][n]
     else:
-        m[rid] = max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
-        return m[rid]
+        m[w][n] = max(memoized(s, n - 1, w, m), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
+        return m[w][n]
 
 def printMatrix(m):
     print()
@@ -55,7 +56,9 @@ def pac(s, w):
     # We initialize the matrix with -1 at first.
     t = [[-1 for i in range(W + 1)] for j in range(n + 1)]
 
-    return knapsack(wt, val, W, n, t)
+    r = knapsack(wt, val, W, n, t)
+    printMatrix(t)
+    return r
 def knapsack(wt, val, W, n, t):
     # base conditions
     if n == 0 or W == 0:
@@ -87,7 +90,7 @@ for n in range(1, 10+1):
             vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found_r, found_m, test = dynamicPrograming(s, n, w), recursive(s, n + 1, w), memoized(s, n + 1, w), pac(s, w)
+        expected, found_r, found_m, test = dynamicPrograming(s, n, w), recursive(s, n + 1, w), aux_memoized(s, n + 1, w), pac(s, w)
         if not expected == found_r == found_m == test:
             print('{} | {} | {} | {}'.format(expected, found_r, found_m, test))
             print('WRONG')
@@ -95,7 +98,7 @@ for n in range(1, 10+1):
             break
         print('{} == {} == {} == {}'.format(expected, found_r, found_m, test))
 
-    # if brk: break
+    if brk: break
 
 
 
