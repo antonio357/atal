@@ -5,14 +5,19 @@ def recursive(s, n, w):
     elif s[n - 1].peso > w: return recursive(s, n - 1, w)
     else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
 
+c = 0
 def memoized(s, n, w, m=dict()):
+    global c
+    c += 1
+    if n <= 1: return 0
     rid = '{},{}'.format(n, w)
     if m.get(rid): return m[rid]
-    if n <= 1:
-        m[rid] = 0
-        return 0
-    elif s[n - 1].peso > w: return memoized(s, n - 1, w, m)
-    else: return max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
+    elif s[n - 1].peso > w:
+        m[rid] = memoized(s, n - 1, w, m)
+        return m[rid]
+    else:
+        m[rid] = max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
+        return m[rid]
 
 def printMatrix(m):
     print()
@@ -73,6 +78,6 @@ n, w = 4, 6
 
 print(dynamicPrograming(s, n, w))
 print(recursive(s, n + 1, w))
-d = {}
+d, c = {}, 0
 print(memoized(s, n + 1, w, d))
-print(d)
+print(c, d)
