@@ -17,7 +17,7 @@ def memoized(s, n, w, m, count=True, c=[0]):
     if m[w][n] != -1:
         if count: c[0] -= 1
         return m[w][n]
-    elif s[n - 1].peso > w:
+    if s[n - 1].peso > w:
         m[w][n] = memoized(s, n - 1, w, m, count, c)
         return m[w][n]
     else:
@@ -31,7 +31,7 @@ def memoized_with_d(s, n, w, m=dict(), count=True, c=[0]):
     if m.get(rid):
         if count: c[0] -= 1
         return m[rid]
-    elif s[n - 1].peso > w:
+    if s[n - 1].peso > w:
         m[rid] = memoized_with_d(s, n - 1, w, m, count, c)
         return m[rid]
     else:
@@ -72,21 +72,21 @@ for n in range(1, 63+1):
             ws.append(s[k].peso)
             vs.append(s[k].valor)
 
-    c = [0]
-    found_m = aux_memoized(s, n + 1, w, True, c)
-    c1 = c[0]
-    c = [0]
-    test = aux_memoized(s, n + 1, w, False, c)
-    c2 = c[0]
-    c = [0]
+    c1 = [0]
+    found_m = aux_memoized(s, n + 1, w, True, c1)
+    c1 = c1[0]
+    c2 = [0]
+    test = aux_memoized(s, n + 1, w, False, c2)
+    c2 = c2[0]
+    c3 = [0]
     d = dict()
-    test1 = memoized_with_d(s,n + 1,w,d,True, c)
-    c3 = c[0]
-    # print('m, !m, !m - m, d == {}, {}, {}, {}'.format(c1, c2, c2 - c1, c3))
+    test1 = memoized_with_d(s,n + 1,w,d,True, c3)
+    c3 = c3[0]
+    print('m, !m, !m - m, d == {}, {}, {}, {}'.format(c1, c2, c2 - c1, c3))
     # print(d)
     expected, found_r = dynamicPrograming(s, n, w), recursive(s, n + 1, w)
     if not expected == found_r == found_m == test == test1:
-        print('{} | {} | {} | {} | {}'.format(expected, found_r, found_m, test, test1))
+        # print('{} | {} | {} | {} | {}'.format(expected, found_r, found_m, test, test1))
         print('WRONG')
         break
-    print('{} == {} == {} == {} == {}'.format(expected, found_r, found_m, test, test1))
+    # print('{} == {} == {} == {} == {}'.format(expected, found_r, found_m, test, test1))
