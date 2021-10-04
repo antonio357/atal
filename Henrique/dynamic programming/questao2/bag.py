@@ -6,9 +6,10 @@ def recursive(s, n, w):
     else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
 
 def memoized(s, n, w, m=dict()):
+    rid = '{},{}'.format(n, w)
+    if m.get(rid): return m[rid]
     if n <= 1:
-        rid = '{},{}'.format(n, w)
-        if not m.get(rid): m[rid] = 0
+        m[rid] = 0
         return 0
     elif s[n - 1].peso > w: return memoized(s, n - 1, w, m)
     else: return max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
