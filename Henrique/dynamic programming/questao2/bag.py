@@ -9,9 +9,11 @@ c = 0
 def memoized(s, n, w, m=dict()):
     global c
     c += 1
-    if n <= 1: return 0
+    if n <= 1 or w == 0: return 0
     rid = '{},{}'.format(n, w)
-    if m.get(rid): return m[rid]
+    if m.get(rid):
+        print('called')
+        return m[rid]
     elif s[n - 1].peso > w:
         m[rid] = memoized(s, n - 1, w, m)
         return m[rid]
@@ -43,6 +45,36 @@ class item():
         self.valor = valor
         self.peso = peso
 
+def pac(s, w):
+    # driver code
+    val = [s[x].valor for x in s.keys()]
+    wt = [s[x].peso for x in s.keys()]
+    W = w
+    n = len(val)
+
+    # We initialize the matrix with -1 at first.
+    t = [[-1 for i in range(W + 1)] for j in range(n + 1)]
+
+    return knapsack(wt, val, W, n, t)
+def knapsack(wt, val, W, n, t):
+    # base conditions
+    if n == 0 or W == 0:
+        return 0
+    if t[n][W] != -1:
+        print('t[n][W] != -1')
+        return t[n][W]
+
+    # choice diagram code
+    if wt[n - 1] <= W:
+        t[n][W] = max(
+            val[n - 1] + knapsack(
+                wt, val, W - wt[n - 1], n - 1, t),
+            knapsack(wt, val, W, n - 1, t))
+        return t[n][W]
+    elif wt[n - 1] > W:
+        t[n][W] = knapsack(wt, val, W, n - 1, t)
+        return t[n][W]
+
 brk = False
 for n in range(1, 10+1):
     s, sr, ws, vs = {}, {}, [], []
@@ -55,29 +87,29 @@ for n in range(1, 10+1):
             vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found_r, found_m = dynamicPrograming(s, n, w), recursive(s, n + 1, w), memoized(s, n + 1, w)
-        if not expected == found_r == found_m:
-            print('{} | {} | {}'.format(expected, found_r, found_m))
+        expected, found_r, found_m, test = dynamicPrograming(s, n, w), recursive(s, n + 1, w), memoized(s, n + 1, w), pac(s, w)
+        if not expected == found_r == found_m == test:
+            print('{} | {} | {} | {}'.format(expected, found_r, found_m, test))
             print('WRONG')
             brk = True
             break
-        print('{} == {} == {}'.format(expected, found_r, found_m))
+        print('{} == {} == {} == {}'.format(expected, found_r, found_m, test))
 
-    if brk: break
+    # if brk: break
 
 
 
-print('\n\n')
-s = {
-    1: item(6, 30),
-    2: item(3, 14),
-    3: item(4, 16),
-    4: item(2, 9)
-}
-n, w = 4, 6
-
-print(dynamicPrograming(s, n, w))
-print(recursive(s, n + 1, w))
-d, c = {}, 0
-print(memoized(s, n + 1, w, d))
-print(c, d)
+# print('\n\n')
+# s = {
+#     1: item(6, 30),
+#     2: item(3, 14),
+#     3: item(4, 16),
+#     4: item(2, 9)
+# }
+# n, w = 4, 6
+#
+# print(dynamicPrograming(s, n, w))
+# print(recursive(s, n + 1, w))
+# d, c = {}, 0
+# print(memoized(s, n + 1, w, d))
+# print(c, d)
