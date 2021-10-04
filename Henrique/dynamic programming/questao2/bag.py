@@ -1,3 +1,5 @@
+from random import randint
+
 def printMatrix(m):
     print()
     for i in m: print(i)
@@ -53,21 +55,37 @@ class item():
         self.valor = valor
         self.peso = peso
 
-s = {
-    1: item(6, 30),
-    2: item(3, 14),
-    3: item(4, 16),
-    4: item(2, 9)
-}
-n, w = 4, 10
+for n in range(1, 10+1):
+    s, ws, vs = dict(), [], []
+    for i in range(1, n+1):
+        s[i] = item(randint(1, 100), sum([x.peso for x in s.values()]) + randint(1, 100))
+    for k in s.keys():
+        ws.append(s[k].peso)
+        vs.append(s[k].valor)
 
-print('expected', dynamicPrograming(s, n, w))
-# print(recursive(s, n, w))
-w1, v1, n1, W1 = [], [], n, w
-for k in s.keys():
-    w1.append(s[k].peso)
-    v1.append(s[k].valor)
-# print('f(n, W)')
-# print('f({}, {})'.format(n1, W1))
-print('try', f(w1, v1, n1, W1))
-print('my try', f_with_dict(s, n, w))
+    for w in range(0, n*2):
+        expected, found = dynamicPrograming(s, n, w), f(ws, vs, n, w)
+        if not expected == found:
+            print('WRONG')
+            break
+        print('{} == {}'.format(expected, found))
+
+
+# s = {
+#     1: item(6, 30),
+#     2: item(3, 14),
+#     3: item(4, 16),
+#     4: item(2, 9)
+# }
+# n, w = 4, 10
+#
+# print('expected', dynamicPrograming(s, n, w))
+# # print(recursive(s, n, w))
+# w1, v1, n1, W1 = [], [], n, w
+# for k in s.keys():
+#     w1.append(s[k].peso)
+#     v1.append(s[k].valor)
+# # print('f(n, W)')
+# # print('f({}, {})'.format(n1, W1))
+# print('try', f(w1, v1, n1, W1))
+# print('my try', f_with_dict(s, n, w))
