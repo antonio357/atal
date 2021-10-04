@@ -80,7 +80,7 @@ for n in range(1, 63+1):
     c2 = c[0]
     c = [0]
     d = dict()
-    test1 = memoized_with_d(s,n,w,d,True, c)
+    test1 = memoized_with_d(s,n + 1,w,d,True, c)
     c3 = c[0]
     # print('m, !m, !m - m, d == {}, {}, {}, {}'.format(c1, c2, c2 - c1, c3))
     # print(d)
@@ -88,5 +88,5 @@ for n in range(1, 63+1):
     if not expected == found_r == found_m == test == test1:
         print('{} | {} | {} | {} | {}'.format(expected, found_r, found_m, test, test1))
         print('WRONG')
-        # break
+        break
     print('{} == {} == {} == {} == {}'.format(expected, found_r, found_m, test, test1))
