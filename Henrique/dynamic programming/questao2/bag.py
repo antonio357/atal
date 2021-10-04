@@ -75,9 +75,8 @@ def knapsack(wt, val, W, n, t):
         t[n][W] = knapsack(wt, val, W, n - 1, t)
         return t[n][W]
 
-# brk = False
 for n in range(1, 63+1):
-    s, sr, ws, vs = {}, {}, [], []
+    s, sr, ws, vs, w = {}, {}, [], [], n
     for i in range(1, n+1):
         s[i] = item(randint(1, n), randint(1, n*2))
         sr[i - 1] = s[i]
@@ -86,8 +85,6 @@ for n in range(1, 63+1):
             ws.append(s[k].peso)
             vs.append(s[k].valor)
 
-    # for w in range(0, n*2):
-    w = n
     expected, found_r, found_m, test = dynamicPrograming(s, n, w), recursive(s, n + 1, w), aux_memoized(s, n + 1, w), pac(s, w)
     if not expected == found_r == found_m == test:
         print('{} | {} | {} | {}'.format(expected, found_r, found_m, test))
@@ -95,22 +92,3 @@ for n in range(1, 63+1):
         brk = True
         break
     print('{} == {} == {} == {}'.format(expected, found_r, found_m, test))
-
-    # if brk: break
-
-
-
-# print('\n\n')
-# s = {
-#     1: item(6, 30),
-#     2: item(3, 14),
-#     3: item(4, 16),
-#     4: item(2, 9)
-# }
-# n, w = 4, 6
-#
-# print(dynamicPrograming(s, n, w))
-# print(recursive(s, n + 1, w))
-# d, c = {}, 0
-# print(memoized(s, n + 1, w, d))
-# print(c, d)
