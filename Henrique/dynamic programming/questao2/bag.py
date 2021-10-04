@@ -19,10 +19,22 @@ def initMatrix(m, n, w):
 #     }
 # }
 
-def f(w, v, n, W):
-    if n <= 0: return 0
-    elif w[n - 1] > W: return f(w, v, n - 1, W)
-    return max(f(w, v, n - 1, W), v[n - 1] + f(w, v, n - 1, W - w[n - 1]))
+def f(w, v, n, W, id=0, idP=-1, idc=None, idcP=None):
+    print('f({}, {}), id = {}, idP {}, idc = {}, idcP = {}'.format(n, W, id, idP, idc, idcP))
+    # print('f({}, {}, {}, {})'.format(w, v, n, W))
+    # print(n, end=' ')
+    if n <= 0:
+        # print('end')
+        return 0
+    elif w[n - 1] > W:
+        # print('f({}, {}), elif'.format(n - 1, W))
+        return f(w, v, n - 1, W, id + 1, id, idc='/', idcP=idc)
+    else:
+        # print('f({}, {}), else, first'.format(n - 1, W))
+        x1 = f(w, v, n - 1, W, id + 1, id, idc='//', idcP=idc)
+        # print('f({}, {}), else, then'.format(n - 1, W - w[n - 1]))
+        x2 = v[n - 1] + f(w, v, n - 1, W - w[n - 1], id + 1, id, idc='///', idcP=idc)
+        return max(x1, x2)
 
 # def recursive(s, n, w):
 #     if n == 0: return 0
@@ -52,12 +64,14 @@ s = {
     3: item(4, 16),
     4: item(2, 9)
 }
-n, w = 4, 10
+n, w = 4, 6
 
 print(dynamicPrograming(s, n, w))
 # print(recursive(s, n, w))
-w1, v1, n1, W1 = [0], [0], 4, 10
+w1, v1, n1, W1 = [0], [0], n, w
 for k in s.keys():
     w1.append(s[k].peso)
     v1.append(s[k].valor)
+print('f(n, W)')
+print('f({}, {})'.format(n1, W1))
 print(f(w1, v1, n1, W1))
