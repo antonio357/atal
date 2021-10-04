@@ -1,12 +1,12 @@
 from random import randint
 
 def recursive(s, n, w):
-    if n <= 1: return 0
+    if n == 1: return 0
     if s[n - 1].peso > w: return recursive(s, n - 1, w)
     else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
 
 def memoized(s, n, w, rm):
-    if n <= 1: return 0
+    if n == 1: return 0
     rid = '{},{}'.format(w, n)
     if rm.get(rid): return rm[rid]
     if s[n - 1].peso > w:
