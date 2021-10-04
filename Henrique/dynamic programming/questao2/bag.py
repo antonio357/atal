@@ -14,6 +14,7 @@ def memoized(s, n, w, m):
     c += 1
     if n <= 1: return 0
     if m[w][n] != -1:
+        c -= 1
         return m[n][w]
     elif s[n - 1].peso > w:
         m[w][n] = memoized(s, n - 1, w, m)
@@ -55,16 +56,12 @@ def pac(s, w):
 
     # We initialize the matrix with -1 at first.
     t = [[-1 for i in range(W + 1)] for j in range(n + 1)]
-
-    r = knapsack(wt, val, W, n, t)
-    printMatrix(t)
-    return r
+    return knapsack(wt, val, W, n, t)
 def knapsack(wt, val, W, n, t):
     # base conditions
     if n == 0 or W == 0:
         return 0
     if t[n][W] != -1:
-        print('t[n][W] != -1')
         return t[n][W]
 
     # choice diagram code
