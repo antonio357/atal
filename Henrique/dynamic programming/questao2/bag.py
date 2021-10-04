@@ -15,7 +15,7 @@ def memoized(s, n, w, m):
     if n <= 1: return 0
     if m[w][n] != -1:
         c -= 1
-        return m[n][w]
+        return m[w][n]
     elif s[n - 1].peso > w:
         m[w][n] = memoized(s, n - 1, w, m)
         return m[w][n]
