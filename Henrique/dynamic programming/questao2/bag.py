@@ -1,5 +1,26 @@
 from random import randint
 
+def recursive(s, n, w):
+    if n <= 1: return 0
+    elif s[n - 1].peso > w: return recursive(s, n - 1, w)
+    else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
+
+def memoized(s, n, w, m=dict()):
+    if n <= 1:
+        return 0
+    elif s[n - 1].peso > w:
+        rid = '{},{}'.format(n - 1, w)
+        if m.get(rid): return m[rid]
+        call = memoized(s, n - 1, w, m)
+        # m[rid] = call
+        return call
+    else:
+        rid = '{},{}'.format(n, w)
+        if m.get(rid): return m[rid]
+        call = max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
+        m[rid] = call
+        return call
+
 def printMatrix(m):
     print()
     for i in m: print(i)
@@ -9,14 +30,6 @@ def initMatrix(m, n, w):
         m.append(list())
         for c in range(n + 1):
             m[r].append(0)
-
-def recursive(s, n, w):
-    if n <= 1: return 0
-    elif s[n - 1].peso > w: return recursive(s, n - 1, w)
-    else: return max(recursive(s, n - 1, w), s[n - 1].valor + recursive(s, n - 1, w - s[n - 1].peso))
-
-def memoized():
-    pass
 
 def dynamicPrograming(s, n, w):
     m = list()
@@ -44,13 +57,13 @@ for n in range(1, 10+1):
             vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found_r = dynamicPrograming(s, n, w), recursive(s, n+1, w)
-        if not expected == found_r:
-            print('{} | {}'.format(expected, found_r))
+        expected, found_r, found_m = dynamicPrograming(s, n, w), recursive(s, n + 1, w), memoized(s, n + 1, w)
+        if not expected == found_r == found_m:
+            print('{} | {} | {}'.format(expected, found_r, found_m))
             print('WRONG')
             brk = True
             break
-        print('{} == {}'.format(expected, found_r))
+        print('{} == {} == {}'.format(expected, found_r, found_m))
 
     if brk: break
 
