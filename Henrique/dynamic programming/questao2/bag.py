@@ -51,16 +51,17 @@ class item():
 
 brk = False
 for n in range(1, 10+1):
-    s, ws, vs = {0: item(0, 0)}, [], []
+    s, sr, ws, vs = {}, {}, [], []
     for i in range(1, n+1):
         s[i] = item(randint(1, 100), sum([x.peso for x in s.values()]) + randint(1, 100))
+        sr[i - 1] = s[i]
     for k in s.keys():
         if k != 0:
             ws.append(s[k].peso)
             vs.append(s[k].valor)
 
     for w in range(0, n*2):
-        expected, found, found1 = dynamicPrograming(s, n, w), f(ws, vs, n, w), recursive(s, n, w)
+        expected, found, found1 = dynamicPrograming(s, n, w), f(ws, vs, n, w), recursive(sr, n, w)
         if not expected == found == found1:
             print('{} | {} | {}'.format(expected, found, found1))
             print('WRONG')
