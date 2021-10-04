@@ -68,21 +68,18 @@ for n in range(1, 10+1):
     if brk: break
 
 
-# s = {
-#     1: item(6, 30),
-#     2: item(3, 14),
-#     3: item(4, 16),
-#     4: item(2, 9)
-# }
-# n, w = 4, 10
-#
-# print('expected', dynamicPrograming(s, n, w))
-# # print(recursive(s, n, w))
-# w1, v1, n1, W1 = [], [], n, w
-# for k in s.keys():
-#     w1.append(s[k].peso)
-#     v1.append(s[k].valor)
-# # print('f(n, W)')
-# # print('f({}, {})'.format(n1, W1))
-# print('try', f(w1, v1, n1, W1))
-# print('my try', f_with_dict(s, n, w))
+
+print('\n\n')
+s = {
+    1: item(6, 30),
+    2: item(3, 14),
+    3: item(4, 16),
+    4: item(2, 9)
+}
+n, w = 4, 6
+
+print(dynamicPrograming(s, n, w))
+print(recursive(s, n + 1, w))
+d = {}
+print(memoized(s, n + 1, w, d))
+print(d)
