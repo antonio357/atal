@@ -53,7 +53,7 @@ brk = False
 for n in range(1, 10+1):
     s, sr, ws, vs = {}, {}, [], []
     for i in range(1, n+1):
-        s[i] = item(randint(1, 100), abs(sum([x.peso for x in s.values()]) - randint(1, 100)))
+        s[i] = item(randint(1, 100), abs(sum([x.peso for x in s.values()]) - randint(1, 100)) if i % 2 == 0 else sum([x.peso for x in s.values()]) + randint(1, 100))
         sr[i - 1] = s[i]
     for k in s.keys():
         if k != 0:
