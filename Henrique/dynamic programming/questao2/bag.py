@@ -7,19 +7,11 @@ def recursive(s, n, w):
 
 def memoized(s, n, w, m=dict()):
     if n <= 1:
-        return 0
-    elif s[n - 1].peso > w:
-        rid = '{},{}'.format(n - 1, w)
-        if m.get(rid): return m[rid]
-        call = memoized(s, n - 1, w, m)
-        # m[rid] = call
-        return call
-    else:
         rid = '{},{}'.format(n, w)
-        if m.get(rid): return m[rid]
-        call = max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
-        m[rid] = call
-        return call
+        if not m.get(rid): m[rid] = 0
+        return 0
+    elif s[n - 1].peso > w: return memoized(s, n - 1, w, m)
+    else: return max(memoized(s, n - 1, w), s[n - 1].valor + memoized(s, n - 1, w - s[n - 1].peso, m))
 
 def printMatrix(m):
     print()
