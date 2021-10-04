@@ -75,27 +75,28 @@ def knapsack(wt, val, W, n, t):
         t[n][W] = knapsack(wt, val, W, n - 1, t)
         return t[n][W]
 
-brk = False
-for n in range(1, 10+1):
+# brk = False
+for n in range(1, 50+1):
     s, sr, ws, vs = {}, {}, [], []
     for i in range(1, n+1):
-        s[i] = item(randint(1, 100), abs(sum([x.peso for x in s.values()]) - randint(1, 100)) if i % 2 == 0 else sum([x.peso for x in s.values()]) + randint(1, 100))
+        s[i] = item(randint(1, n), randint(1, n*2))
         sr[i - 1] = s[i]
     for k in s.keys():
         if k != 0:
             ws.append(s[k].peso)
             vs.append(s[k].valor)
 
-    for w in range(0, n*2):
-        expected, found_r, found_m, test = dynamicPrograming(s, n, w), recursive(s, n + 1, w), aux_memoized(s, n + 1, w), pac(s, w)
-        if not expected == found_r == found_m == test:
-            print('{} | {} | {} | {}'.format(expected, found_r, found_m, test))
-            print('WRONG')
-            brk = True
-            break
-        print('{} == {} == {} == {}'.format(expected, found_r, found_m, test))
+    # for w in range(0, n*2):
+    w = n*2
+    expected, found_r, found_m, test = dynamicPrograming(s, n, w), recursive(s, n + 1, w), aux_memoized(s, n + 1, w), pac(s, w)
+    if not expected == found_r == found_m == test:
+        print('{} | {} | {} | {}'.format(expected, found_r, found_m, test))
+        print('WRONG')
+        brk = True
+        break
+    print('{} == {} == {} == {}'.format(expected, found_r, found_m, test))
 
-    if brk: break
+    # if brk: break
 
 
 
